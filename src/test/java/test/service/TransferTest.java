@@ -17,6 +17,7 @@ import test.entity.Debt;
 import test.entity.Session;
 import test.entity.User;
 import test.exception.BankAccountNotFoundException;
+import test.exception.CannotTransferSelfException;
 import test.exception.InsufficientBalanceException;
 import test.exception.InvalidAmountException;
 import test.exception.UserNotLoginException;
@@ -62,6 +63,14 @@ public class TransferTest {
       assertThrowsExactly(InvalidAmountException.class, () -> {
         Session.setSession(user);
         service.transfer("someone", BigDecimal.ZERO);
+      });
+    }
+
+    @Test
+    public void transferSelfTest() {
+      assertThrowsExactly(CannotTransferSelfException.class, () -> {
+        Session.setSession(user);
+        service.transfer(user.getName(), BigDecimal.TEN);
       });
     }
 

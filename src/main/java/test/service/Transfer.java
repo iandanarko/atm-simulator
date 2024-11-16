@@ -9,6 +9,7 @@ import test.entity.BankAccount;
 import test.entity.Debt;
 import test.entity.Session;
 import test.exception.BankAccountNotFoundException;
+import test.exception.CannotTransferSelfException;
 import test.exception.InsufficientBalanceException;
 import test.exception.InvalidAmountException;
 import test.exception.UserNotLoginException;
@@ -30,6 +31,10 @@ public class Transfer implements ITransfer {
       }
       if (amount.compareTo(BigDecimal.ZERO) <= 0) {
         throw new InvalidAmountException();
+      }
+
+      if (to.equals(Session.getUser().getName())) {
+        throw new CannotTransferSelfException();
       }
 
       Debt debt = debtRepo.findByFromAndTo(to, Session.getUser().getName());

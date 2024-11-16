@@ -10,7 +10,6 @@ import test.repository.IBankAccountRepo;
 import test.repository.IDebtRepo;
 import test.repository.IUserRepo;
 import test.repository.UserRepo;
-import test.service.Atm;
 import test.service.Deposit;
 import test.service.IDeposit;
 import test.service.ILogin;
@@ -37,7 +36,6 @@ public class Main {
     private static ITransfer transferService;
     
     public static void main(String[] args) {
-       Atm atm = new Atm();
        Scanner scan = new Scanner(System.in);
 
        userRepo = new UserRepo();
@@ -57,7 +55,7 @@ public class Main {
             break;
          }
          try {
-            handleInput(input, atm);
+            handleInput(input);
          } catch (Exception e) {
             System.out.println(e.getMessage());
          }
@@ -65,7 +63,7 @@ public class Main {
        scan.close();
     }
 
-    private static void handleInput(String input, Atm atm) throws Exception {
+    private static void handleInput(String input) throws Exception {
         String[] inputArr = input.split(" ");
         if (inputArr.length == 0) {
             throw new InvalidCommand();
